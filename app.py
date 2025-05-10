@@ -9,62 +9,8 @@ from dash.dependencies import Input, Output
 from itertools import chain  
 import math
 
-
-### Load the data and pre-filter
-title_basics = (pd.read_csv("./title.basics.tsv/title.basics.tsv", sep = '\t', low_memory = False)
-                .query("startYear >= '2000' and startYear <= '2005'")
-                .query("titleType == 'movie'")
-                .query("isAdult == '0'")
-               )
-tconst_to_load = list(title_basics.tconst)
-
-principals = (pd.read_csv("./title.principals.tsv/title.principals.tsv", sep = '\t', low_memory = False)
-              .query("tconst in @tconst_to_load"))
-nconst_to_load = list(principals.nconst)
-principals = principals.drop_duplicates()
-
-crew = (pd.read_csv("./title.crew.tsv/title.crew.tsv", sep = '\t', low_memory = False)
-       .query("tconst in @tconst_to_load"))
-
-ratings = (pd.read_csv("./title.ratings.tsv/title.ratings.tsv", sep = '\t', low_memory = False)
-           .query("tconst in @tconst_to_load"))
-
-name_basics = (pd.read_csv("./name.basics.tsv/name.basics.tsv", sep = '\t', low_memory = False)
-               .query("nconst in @nconst_to_load"))
-
-#  Group by tconst and number the nconst
-principals['nconst_number'] = principals.groupby('tconst').cumcount() + 1
-
-# Pivot to get nconst as columns
-principals = principals.pivot(index='tconst', columns='nconst_number', values='nconst')
-
-# Reorder and rename the columns
-principals.columns = [f'nconst{i}' for i in principals.columns]
-
-# Index reset
-principals = principals.reset_index()
-
-nconst_to_name = dict(zip(name_basics['nconst'], name_basics['primaryName']))
-
-# Mapping to replace the nconst by actors' name
-nconst_cols = [col for col in principals.columns if col.startswith('nconst')]
-
-for col in nconst_cols:
-    principals[col] = principals[col].map(nconst_to_name)
-
-# Select all the nconst starting by nconst
-nconst_cols = [col for col in principals.columns if col.startswith('nconst')]
-
-# Merge the nconst columns
-principals['nconst'] = principals[nconst_cols].apply(lambda x: ','.join(x.dropna()), axis=1)
-
-principals = principals[['tconst', 'nconst']]
-principals = principals.rename(columns={'nconst': 'Name'})
-
-df1 = pd.concat([title_basics.set_index('tconst'),crew.set_index('tconst')], axis=1, join='inner').reset_index()
-df2 = pd.concat([df1.set_index('tconst'),ratings.set_index('tconst')], axis=1, join='inner').reset_index()
-
-data = pd.concat([df2.set_index('tconst'),principals.set_index('tconst')], axis=1, join='inner').reset_index()
+url = "https://github.com/Gaby-gif/IMDbApp.github.io/blob/main/data.csv"
+data = pd.read_csv(url)
 
 data['directors'] = data['directors'].map(nconst_to_name)
 data['writers'] = data['writers'].map(nconst_to_name)
