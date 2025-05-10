@@ -9,7 +9,7 @@ from dash.dependencies import Input, Output
 from itertools import chain  
 import math
 
-url = "https://github.com/Gaby-gif/IMDbApp.github.io/blob/main/data.csv"
+url = "https://github.com/Gaby-gif/IMDbApp.github.io/blob/main/data.xlsx"
 data = pd.read_csv(url)
 
 data['directors'] = data['directors'].map(nconst_to_name)
