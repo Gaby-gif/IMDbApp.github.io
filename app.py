@@ -8,6 +8,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from itertools import chain  
 import math
+import os
 
 url = "https://raw.githubusercontent.com/Gaby-gif/IMDbApp.github.io/refs/heads/main/data.csv"
 data = pd.read_csv(url)
@@ -345,4 +346,5 @@ def table(filtered_data):
     return fig_vote, fig_rate
 
 if __name__ == "__main__":
-    app.run(debug=True, port = 8050)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(host="0.0.0.0", port=port)
