@@ -1,0 +1,85 @@
+/* Font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #1f1f1f;
+    margin-top: 40px;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+/* Common card style */
+.card-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    margin: 12px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.choice-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    margin: 12px;
+    flex: 1;
+    min-width: 200px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.choice-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.kpi-container,
+.filter-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 32px;
+    gap: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.imdb-button {
+    background-color: #f5c518;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.imdb-button:hover {
+    background-color: #e6b400;
+}
+
+button.active,
+button:focus,
+button.selected {
+    background-color: #d4a700; /* Encore plus foncé */
+    color: black;
+    outline: none;
+}
