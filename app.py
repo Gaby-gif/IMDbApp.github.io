@@ -9,11 +9,8 @@ from dash.dependencies import Input, Output
 from itertools import chain  
 import math
 
-url = "https://github.com/Gaby-gif/IMDbApp.github.io/blob/main/data.xlsx"
+url = "https://raw.githubusercontent.com/Gaby-gif/IMDbApp.github.io/refs/heads/main/data.csv"
 data = pd.read_csv(url)
-
-data['directors'] = data['directors'].map(nconst_to_name)
-data['writers'] = data['writers'].map(nconst_to_name)
 
 year_median = pd.to_numeric(data["startYear"], errors="coerce").median()
 data["startYear"] = data["startYear"].replace('\\N', str(round(year_median)))
